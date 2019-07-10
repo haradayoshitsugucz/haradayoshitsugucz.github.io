@@ -19,7 +19,7 @@
     // Ajax button click
     $('#send').on('click',function(){
       $.ajax({
-        url:'$(\'#url\').val()',
+        url:$('#url').val(),
         type:'GET'
       })
       // Ajaxリクエストが成功した時発動
