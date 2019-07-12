@@ -19,7 +19,7 @@
     // Ajax button click
     $('#send').on('click',function(){
       $.ajax({
-        url:'https://stg.app-adforce.jp/ad/p/r?_site=30700&_article=379648&_link=10987464ccc=1&_nored=1',
+        url:$('#url').val(),
         type:'GET'
       })
       // Ajaxリクエストが成功した時発動
