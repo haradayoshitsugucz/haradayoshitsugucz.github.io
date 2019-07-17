@@ -8,99 +8,102 @@
 
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    
+
+    <p>dev</p>
     <form id="form_dev" method="get" accept-charset="utf-8" return false>
-        <p>dev<input type="text" size="300" name="dev_url" id="dev_url"
-                value="https://dev.app-adforce.jp/ad/p/r?_site=61038&_article=363984&_link=10358905&dev=1"> </p>
+    <input type="text" size="300" name="dev_url" id="dev_url"
+    value="https://dev.app-adforce.jp/ad/p/r?_site=61038&_article=363984&_link=10358905&dev=1" />
     </form>
     <button id="send_dev>ajax</button>
 
-    <form id="form_stg" method="get" accept-charset="utf-8" return false>
-        <p>stg<input type="text" size="300" name="stg_url" id="stg_url"
-                value="https://stg.app-adforce.jp/ad/p/r?_site=64652&_article=379651&_link=10987467&stg=1"> </p>
+    <p>stg</p>
+    <form id=" form_stg" method="get" accept-charset="utf-8" return false>
+    <input type="text" size="300" name="stg_url" id="stg_url"
+    value="https://stg.app-adforce.jp/ad/p/r?_site=64652&_article=379651&_link=10987467&stg=1" />
     </form>
     <button id="send_stg">ajax</button>
 
+    <p>prd</p>
     <form id="form_prd" method="get" accept-charset="utf-8" return false>
-        <p>prd<input type="text" size="300" name="prd_url" id="prd_url"
-                value="https://c1.app-adforce.jp/ad/p/r?_site=58076&_article=348895&_link=9805550&prd=1"> </p>
+    <input type="text" size="300" name="prd_url" id="prd_url"
+    value="https://c1.app-adforce.jp/ad/p/r?_site=58076&_article=348895&_link=9805550&prd=1" />
     </form>
     <button id="send_prd">ajax</button>
-    
-    <div class="result"></div>
 
-    <script type="text/javascript">
+        <div class="result"></div>
 
-        $(function () {
-            // Ajax button click
-            $('#send_dev').on('click', function () {
-                $.ajax({
-                    url: $('#dev_url').val(),
-                    type: 'GET'
-                })
-                    // Ajaxリクエストが成功した時発動
-                    .done((data) => {
-                        $('.result').html(data);
-                        console.log(data);
+        <script type="text/javascript">
+
+            $(function () {
+                // Ajax button click
+                $('#send_dev').on('click', function () {
+                    $.ajax({
+                        url: $('#dev_url').val(),
+                        type: 'GET'
                     })
-                    // Ajaxリクエストが失敗した時発動
-                    .fail((data) => {
-                        $('.result').html(data);
-                        console.log(data);
-                    })
-                    // Ajaxリクエストが成功・失敗どちらでも発動
-                    .always((data) => {
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
 
-                    });
+                        });
+                });
+
+                // Ajax button click
+                $('#send_stg').on('click', function () {
+                    $.ajax({
+                        url: $('#stg_url').val(),
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
+                // Ajax button click
+                $('#send_prd').on('click', function () {
+                    $.ajax({
+                        url: $('#prd_url').val(),
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('.result').html(data);
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
             });
 
-            // Ajax button click
-            $('#send_stg').on('click', function () {
-                $.ajax({
-                    url: $('#stg_url').val(),
-                    type: 'GET'
-                })
-                    // Ajaxリクエストが成功した時発動
-                    .done((data) => {
-                        $('.result').html(data);
-                        console.log(data);
-                    })
-                    // Ajaxリクエストが失敗した時発動
-                    .fail((data) => {
-                        $('.result').html(data);
-                        console.log(data);
-                    })
-                    // Ajaxリクエストが成功・失敗どちらでも発動
-                    .always((data) => {
-
-                    });
-            });
-
-            // Ajax button click
-            $('#send_prd').on('click', function () {
-                $.ajax({
-                    url: $('#prd_url').val(),
-                    type: 'GET'
-                })
-                    // Ajaxリクエストが成功した時発動
-                    .done((data) => {
-                        $('.result').html(data);
-                        console.log(data);
-                    })
-                    // Ajaxリクエストが失敗した時発動
-                    .fail((data) => {
-                        $('.result').html(data);
-                        console.log(data);
-                    })
-                    // Ajaxリクエストが成功・失敗どちらでも発動
-                    .always((data) => {
-
-                    });
-            });
-
-        });
-
-    </script>
+        </script>
 </body>
 
 </html>
