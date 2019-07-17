@@ -42,6 +42,9 @@
                 $('#send_dev').on('click', function () {
                     $.ajax({
                         url: $('#dev_url').val(),
+                        headers: {
+                            "x_test_header1" : x_test_value1
+                        },
                         type: 'GET'
                     })
                         // Ajaxリクエストが成功した時発動
@@ -64,6 +67,9 @@
                 $('#send_stg').on('click', function () {
                     $.ajax({
                         url: $('#stg_url').val(),
+                        headers: {
+                            "x_test_header1" : x_test_value1
+                        },
                         type: 'GET'
                     })
                         // Ajaxリクエストが成功した時発動
@@ -86,6 +92,9 @@
                 $('#send_prd').on('click', function () {
                     $.ajax({
                         url: $('#prd_url').val(),
+                        headers: {
+                            "x_test_header1" : x_test_value1
+                        },
                         type: 'GET'
                     })
                         // Ajaxリクエストが成功した時発動
