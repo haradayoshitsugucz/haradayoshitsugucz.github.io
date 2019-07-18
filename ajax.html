@@ -33,7 +33,8 @@
     <button id="send_prd">ajax</button>
     <br/>
 
-        <div class="result"></div>
+        <iframe id="result" srcdoc='<p>ここに埋め込むHTML文書を記載</p>'>
+        </iframe>
 
         <script type="text/javascript">
 
@@ -74,7 +75,9 @@
                     })
                         // Ajaxリクエストが成功した時発動
                         .done((data) => {
-                            $('.result').html(data);
+                            $('#result').attr('srcdoc', data).appendTo('body');
+
+
                             console.log(data);
                         })
                         // Ajaxリクエストが失敗した時発動
