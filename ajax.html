@@ -78,7 +78,6 @@
                         .done((data) => {
                             $('#result').html("");
                             $('#result').html(data);
-                            $('#result')[0].contentDocument.location.reload(true);
                             console.log(data);
                         })
                         // Ajaxリクエストが失敗した時発動
