@@ -33,7 +33,9 @@
     <button id="send_prd">ajax</button>
     <br/>
 
-        <div class="result"></div>
+        <iframe id="result" src="result.html" width="700" height="300">
+
+        </iframe>
 
         <script type="text/javascript">
 
@@ -74,7 +76,7 @@
                     })
                         // Ajaxリクエストが成功した時発動
                         .done((data) => {
-                            $('.result').html(data);
+                            $('#result').html(data);
                             console.log(data);
                         })
                         // Ajaxリクエストが失敗した時発動
