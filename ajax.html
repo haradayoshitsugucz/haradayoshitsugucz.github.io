@@ -75,6 +75,9 @@
                         // Ajaxリクエストが成功した時発動
                         .done((data) => {
                             $('.result').html(data);
+                            $.ajax({
+                                url: data,
+                            })
                             console.log(data);
                         })
                         // Ajaxリクエストが失敗した時発動
