@@ -69,16 +69,15 @@
                 $('#send_stg').on('click', function () {
                     $.ajax({
                         url: $('#stg_url').val(),
-//                         headers: {
-//                             'x_test_header1' : 'x_test_value1',
-//                             'x_test_header2' : 'x_test_value2'
-//                         },
-//                         crossDomain: true,
+                        headers: {
+                            'x_test_header1' : 'x_test_value1',
+                            'x_test_header2' : 'x_test_value2'
+                        },
                         type: 'GET'
                     })
                         // Ajaxリクエストが成功した時発動
                         .done((data) => {
-                            //$('#result').attr('srcdoc', data).appendTo('body');
+                            $('#result').attr('srcdoc', data).appendTo('body');
                             console.log(data);
                         })
                         // Ajaxリクエストが失敗した時発動
