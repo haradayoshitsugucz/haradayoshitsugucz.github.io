@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <p>DEV</p>
+    <form id="form_dev" method="get" accept-charset="utf-8" return false>
+        <input type="text" size="300" name="dev_url" id="dev_url"
+               value="https://dev.app-adforce.jp/ad/p/r?_site=61079&_article=364026&_link=10358972&dev=1" />
+    </form>
+    <button id="send_dev">ajax</button>
+    <br/>
+
+    <p>STG</p>
+    <form id=" form_stg" method="get" accept-charset="utf-8" return false>
+        <input type="text" size="300" name="stg_url" id="stg_url"
+               value="https://stg.app-adforce.jp/ad/p/r?_site=64654&_article=379654&_link=10987470&stg=1" />
+    </form>
+    <button id="send_stg">ajax</button>
+    <br/>
+
+    <p>PRD</p>
+    <form id="form_prd" method="get" accept-charset="utf-8" return false>
+        <input type="text" size="300" name="prd_url" id="prd_url"
+               value="https://c1.app-adforce.jp/ad/p/r?_site=64924&_article=380632&_link=11017964&prd=1" />
+    </form>
+    <button id="send_prd">ajax</button>
+    <br/>
+
+        <iframe id="result" srcdoc="<html></html>">
+        </iframe>
+
+        <script type="text/javascript">
+
+            $(function () {
+                // Ajax button click
+                $('#send_dev').on('click', function () {
+                    $.ajax({
+                        url: $('#dev_url').val(),
+                        headers: {
+                            'x_test_header1' : 'x_test_value1',
+                            'x_test_header2' : 'x_test_value2'
+                        },
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
+                // Ajax button click
+                $('#send_stg').on('click', function () {
+                    $.ajax({
+                        url: $('#stg_url').val(),
+                        headers: {
+                            'x_test_header1' : 'x_test_value1',
+                            'x_test_header2' : 'x_test_value2'
+                        },
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
+                // Ajax button click
+                $('#send_prd').on('click', function () {
+                    $.ajax({
+                        url: $('#prd_url').val(),
+                        headers: {
+                            'x_test_header1' : 'x_test_value1',
+                            'x_test_header2' : 'x_test_value2'
+                        },
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
+            });
+
+        </script>
+</body>
+
+</html>
