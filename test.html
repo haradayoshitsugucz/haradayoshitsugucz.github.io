@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <p>STG</p>
+    <form id=" form_stg" method="get" accept-charset="utf-8" return false>
+    <input type="text" size="300" name="stg_url" id="stg_url"
+    value="https://stg.app-adforce.jp/ad/p/r?_site=64652&_article=379651&_link=10987467&stg=1" />
+    </form>
+    <button id="send_stg">click</button>                                                                                      
+    <br/>
+
+        <iframe id="result" srcdoc="<html></html>">
+        </iframe>
+
+        <script type="text/javascript">
+
+            $(function () {
+                // Ajax button click
+                $('#send_stg').on('click', function () {
+                    $.ajax({
+                        url: $('#stg_url').val(),
+                        headers: {
+                            'x_test_header1' : 'x_test_value1',
+                            'x_test_header2' : 'x_test_value2'
+                        },
+                        type: 'GET'
+                    })
+                        // Ajaxリクエストが成功した時発動
+                        .done((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが失敗した時発動
+                        .fail((data) => {
+                            $('#result').attr('srcdoc', data).appendTo('body');
+                            console.log(data);
+                        })
+                        // Ajaxリクエストが成功・失敗どちらでも発動
+                        .always((data) => {
+
+                        });
+                });
+
+            });
+
+        </script>
+</body>
+
+</html>
