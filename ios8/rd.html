@@ -88,11 +88,11 @@ function o(u, s, p, r) {
         if (crios || (ios && iosver >= 9)) {
           // chrome、iOS 9では、iframeにURLスキームを設定してもアプリには飛ばない
           console.log(s);
-          console.log('1_location.replace(s) --------------------------'');
+          console.log('1_location.replace(s) --------------------------');
           location.replace(s);
         } else {
           console.log(s);
-          console.log('2_frm.location.href = s --------------------------'');
+          console.log('2_frm.location.href = s --------------------------');
           frm.location.href = s;
         }
       } catch (e) {
