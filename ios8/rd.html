@@ -46,8 +46,9 @@ if(ios && iosver >= 9.2) {
   ios9_2MoreThan = false;
 }
 
-console.log('ios9_2MoreThan: ' + ios9_2MoreThan);
-console.log('ios12_3MoreThan: ' + ios12_3MoreThan);
+alert('ios9_2MoreThan: ' + ios9_2MoreThan);
+alert('ios12_3MoreThan: ' + ios12_3MoreThan);
+
 
 /**
  * リエンゲージメントのメイン処理
@@ -61,7 +62,8 @@ function o(u, s, p, r) {
   if (ff) {
     st = new Date(); // Firefoxのときだけ、onload後の時刻にstを補正する
   }
-  console.log('schame: ' + s);
+  alert('schame: ' + s);
+
   // アプリ遷移の処理
   var skip = false; // Chrome(Android)、FireFox(Android)のフラグ
   if (s && !g('rd')) {
@@ -87,17 +89,17 @@ function o(u, s, p, r) {
       try {
         if (crios || (ios && iosver >= 9)) {
           // chrome、iOS 9では、iframeにURLスキームを設定してもアプリには飛ばない
-          console.log(s);
-          console.log('1_location.replace(s) --------------------------');
+          alert(s);
+          alert('1_location.replace(s) ');
           location.replace(s);
         } else {
-          console.log(s);
-          console.log('2_frm.location.href = s --------------------------');
+          alert(s);
+          alert('2_frm.location.href = s ');
           frm.location.href = s;
         }
       } catch (e) {
-        console.log('error --------------------------');
-        console.log(e);
+        alert(error);
+        alert(e);
       }
     }
   }
@@ -198,11 +200,11 @@ function tc(max) {
 var lt = g('tv');
 window.onload = function() {
   if (init()) {
-    console.log('1---------------------- ')
+    alert('1_init');
     return;
   }
   if (!g('fin') && tc(3000)) {
-    console.log('2---------------------- ')
+    alert('2 o');
     o(g('rurl'), g('scheme'), g('package'), g('referrer'))
   } else {
     history.back();
