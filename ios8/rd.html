@@ -198,13 +198,15 @@ function tc(max) {
 var lt = g('tv');
 window.onload = function() {
   if (init()) {
+    console.log('1---------------------- ')
     return;
   }
   if (!g('fin') && tc(3000)) {
+    console.log('2---------------------- ')
     o(g('rurl'), g('scheme'), g('package'), g('referrer'))
   } else {
     history.back();
   }
 }
 -->
-</script></head><body><iframe id="frm" name="frm"></iframe></body></html>
+</script></head><body><div style="width:0; height:0; overflow:hidden;"><iframe id="frm" name="frm"></iframe></div></body></html>
