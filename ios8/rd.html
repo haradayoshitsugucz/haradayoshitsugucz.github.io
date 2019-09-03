@@ -1,15 +1,210 @@
-<html>
-  <head>
-    <script type='text/javascript'>
-      // location.replace('tpp://app?item=3&another=4&_xroute=2&_xuid=xfoxGL1MT1i4jHa');
-      window.onload = function () {
-        frm.location.href = 'tpp://app?item=3&another=4&_xroute=2&_xuid=xfoxGL1MT1i4jHa';
-      };    
-      setTimeout(function() { location.replace('http://itunes.apple.com/jp/app/dong-jingpakupedia/id573435943?t=1556082424888'); }, 500); 
-    </script>
-  </head>
-  
-  <body>
-    <iframe id="frm" name="frm"></iframe></div>
-  </body> 
-</html>
+<html><head><script type='text/javascript'><!--
+// minify: cat rd.html.org | tail -r | tail +3 | tail -r | tail +2 | uglifyjs
+
+/*
+ * 全体の処理フローとしては、パラメータを付与していって、自ページへ再度遷移している
+ * 1. 初回読み込み時はURLパラメータに現在時刻(tv)をつけて、自ページへ遷移
+ * 2. アプリへの遷移を試し、URLパラメータにrd=1のフラグをつけて、自ページへ遷移
+ * 3. ストアへ遷移
+ */
+window.onunload = function() {};
+var agent = navigator.userAgent.toLowerCase();
+var chrome = agent.indexOf('chrome') != -1 && parseFloat(agent.substr(agent.indexOf('chrome/') + 7, 5)) >= 25;
+var crios = agent.indexOf('crios') != -1;
+var android = agent.indexOf('android') != -1;
+var ff = agent.indexOf('firefox') != -1;
+var ios = agent.match(/iphone|ipad|ipod|macintosh/);
+var iosver;
+var v = agent.match(/os (\d+)_(\d+)/);
+if(v) {
+  var versions = [parseInt(v[1], 10), parseInt(v[2], 10)];
+  iosver = parseFloat(versions[0] + "." + versions[1]);
+} else if (agent.indexOf('macintosh') != -1) {
+  // ipadのUAがmacintoshになるので、その場合はこちらの分岐に入る。
+  // versionは "Version/13.0".toLowerCase() という感じの値になってるので、それを取り出してparseする
+  var versions = agent.match(/version\/(\d+)\.(\d+)/);
+
+  // safariの場合はversionが取れるはず。
+  if (versions != null && versions.length == 3) {
+    iosver = parseFloat(versions[1] + "." + versions[2]);
+
+  // safariじゃない場合は、iosのversionがとれないので、ipad osがリリースされた13.0に合わせる。
+  } else {
+    iosver = 13.0
+  }
+}
+
+var st = new Date(); // onloadされる前のJS自体が読み込まれたタイミング
+var ios9_2MoreThan; // ios9.2以上かのフラグ
+var ios12_3MoreThan = false; // ios12.3以上かのフラグ
+if(ios && iosver >= 9.2) {
+  ios9_2MoreThan = true;
+  if(iosver >= 12.3) {
+    ios12_3MoreThan = true;
+  }
+} else {
+  ios9_2MoreThan = false;
+}
+
+console.log('ios9_2MoreThan: ' + ios9_2MoreThan);
+console.log('ios12_3MoreThan: ' + ios12_3MoreThan);
+
+/**
+ * リエンゲージメントのメイン処理
+ *
+ * @param {string} u ストアのリダイレクトURL
+ * @param {string} s アプリのURLスキーム
+ * @param {string} p Chrome(Android)のときだけ使われる、パッケージ名
+ * @param {string} r インストールリファラ
+ */
+function o(u, s, p, r) {
+  if (ff) {
+    st = new Date(); // Firefoxのときだけ、onload後の時刻にstを補正する
+  }
+  console.log('schame: ' + s);
+  // アプリ遷移の処理
+  var skip = false; // Chrome(Android)、FireFox(Android)のフラグ
+  if (s && !g('rd')) {
+    if (android && (chrome || ff)) {
+      var intent = false;
+      skip = true;
+      if (agent.indexOf('version') != -1) setInterval(function() {
+        if (intent) {
+          location.replace(location.href + "&fin=1");
+          intent = false;
+        }
+      }, 300);
+      var itid = setInterval(function() {
+        clearInterval(itid);
+        intent = true;
+        // intent起動に利用するため、schemeパラメータを<scheme>:<URI>の2つに分割する
+        shm = s.split(":",2);
+        // https://developer.chrome.com/multidevice/android/intents
+        // 「xuid=XXXXX」の後に何らからのパラメータ(&_dummyparam=1)を追加しないとxuidに不必要な値(%3A%2F%2F)が付与されて改ざんチェックでエラーになるためダミーのパラメータを追加する
+        location.replace("intent:" + shm[1] + "&_dummyparam=1#Intent;scheme=" + shm[0] + ";package=" + p + ";S.market_referrer=" + r + ";end");
+      }, 100);
+    } else {
+      try {
+        if (crios || (ios && iosver >= 9)) {
+          // chrome、iOS 9では、iframeにURLスキームを設定してもアプリには飛ばない
+          console.log(s);
+          console.log('1_location.replace(s) --------------------------'');
+          location.replace(s);
+        } else {
+          console.log(s);
+          console.log('2_frm.location.href = s --------------------------'');
+          frm.location.href = s;
+        }
+      } catch (e) {
+        console.log('error --------------------------');
+        console.log(e);
+      }
+    }
+  }
+
+  var closeWait = 2500;
+  if (crios) {
+    closeWait = 5000;
+  }
+  var ctid = setTimeout(function() {
+    clearTimeout(ctid);
+    history.back();
+  }, closeWait);
+
+  // ストア遷移の処理
+  if (u && !skip) {
+    var rpid = setTimeout(function() {
+      clearTimeout(rpid);
+      // アプリ遷移したあと、ストアに遷移し直す環境を防ぐための条件
+      var loadtime = 650;
+      if (crios) {
+        // Chrome iPadでは、制限秒数が短すぎるとストアへ遷移できない
+        loadtime = 1000;
+      }
+      if (((new Date()).getTime() - st) < loadtime) {
+
+        // ios9.2以上のページ遷移はStore遷移の1回のみ
+        if(ios9_2MoreThan) {
+
+          if(!ios12_3MoreThan) {
+            setTimeout(function() { location.replace(u); }, 2000);
+          } else {
+            setTimeout(function() { location.replace('./download.html?rurl=' + encodeURI(u)); }, 2000);
+          }
+
+          // パラメータに「rd=1」を追加して自ページ遷移後にStoreに遷移する
+        } else {
+           location.replace(!g('rd') ? location.href + "&rd=1" : u);
+        }
+
+        // iOS9はダイアログ対策のため、ストア遷移ダイアログの後に再リダイレクト
+        // ios9.2以降は再リダイレクトさせない。
+        if (ios && iosver >= 9 && !crios && !ios9_2MoreThan) {
+          setTimeout(function() {
+            location.replace(location.href + '&rd=1');
+          }, 500);
+        }
+      }
+    }, 500);
+  }
+}
+
+/**
+ * URLパラメータ取得用のユーティリティー関数
+ *
+ * @param {string} p URLパラメータのキー
+ *
+ * @return {string} キーに対応する値をURLデコードしたもの。存在しない場合はundefined
+ */
+function g(p) {
+  var q = window.location.search;
+  var s = q.indexOf(p + "=");
+  var e = q.indexOf("&", s);
+  if (e == -1) {
+    e = q.length;
+  }
+  if (s != -1 && e != 0) {
+    return decodeURIComponent(q.substring(s + p.length + 1, e));
+  }
+}
+
+/**
+ * このページを最初に読み込んだ際の初期化処理
+ * 最初にページロードしたタイミングをtvに付与し、同じページにリダイレクトする
+ *
+ * @return {boolean} 初回ページロードの(tvがない)場合はtrue
+ */
+function init() {
+  if (!g('tv')) {
+    setTimeout(function() {
+      location.replace(location.href + "&tv=" + (new Date()).getTime());
+    }, 1000);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * このページを初めて読み込んでから経過時間が、max ミリ秒以内か
+ *
+ * @param {integer} max 最大許容時間
+ *
+ * @return {boolean} tvからの現在時刻が、maxより少なければtrue
+ */
+function tc(max) {
+  return (((new Date()).getTime() - lt) < max);
+}
+
+var lt = g('tv');
+window.onload = function() {
+  if (init()) {
+    return;
+  }
+  if (!g('fin') && tc(3000)) {
+    o(g('rurl'), g('scheme'), g('package'), g('referrer'))
+  } else {
+    history.back();
+  }
+}
+-->
+</script></head><body><div style="width:0; height:0; overflow:hidden;"><iframe id="frm" name="frm"></iframe></div></body></html>
