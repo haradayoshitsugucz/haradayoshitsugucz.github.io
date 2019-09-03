@@ -2,11 +2,14 @@
   <head>
     <script type='text/javascript'>
       // location.replace('tpp://app?item=3&another=4&_xroute=2&_xuid=xfoxGL1MT1i4jHa');
-      frm.location.href = 'tpp://app?item=3&another=4&_xroute=2&_xuid=xfoxGL1MT1i4jHa';
-      setTimeout(function() { location.replace(!g('rd') ? location.href + "&rd=1" : u); }, 500); 
+      window.onload = function () {
+        frm.location.href = 'tpp://app?item=3&another=4&_xroute=2&_xuid=xfoxGL1MT1i4jHa';
+      };    
+      setTimeout(function() { location.replace('http://itunes.apple.com/jp/app/dong-jingpakupedia/id573435943?t=1556082424888'); }, 500); 
     </script>
   </head>
-  <body><div style="width:0; height:0; overflow:hidden;">
+  
+  <body>
     <iframe id="frm" name="frm"></iframe></div>
   </body> 
 </html>
