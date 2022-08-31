@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+<h2>dev view_log</h2>
+
+<p>DEV</p>
+<form id="form_dev" method="post" accept-charset="utf-8" return false>
+    <input type="text" size="300" name="dev_url" id="dev_url"
+           value="https://www.purple-dev.health-meditech.info/api/v1/everyone/stories/key-001/episodes/key-002/view" />
+</form>
+<button id="send_dev">click</button>
+<br/>
+
+<iframe id="result" srcdoc="<html></html>">
+</iframe>
+
+<script type="text/javascript">
+
+    $(function () {
+        // Ajax button click
+        $('#send_dev').on('click', function () {
+            $.ajax({
+                url: $('#dev_url').val(),
+                type: 'POST'
+            })
+                // Ajaxリクエストが成功した時発動
+                .done((data) => {
+                    $('#result').attr('srcdoc', data).appendTo('body');
+                    console.log(data);
+                })
+                // Ajaxリクエストが失敗した時発動
+                .fail((data) => {
+                    $('#result').attr('srcdoc', data).appendTo('body');
+                    console.log(data);
+                })
+                // Ajaxリクエストが成功・失敗どちらでも発動
+                .always((data) => {
+
+                });
+        });
+    });
+
+</script>
+</body>
+
+</html>
