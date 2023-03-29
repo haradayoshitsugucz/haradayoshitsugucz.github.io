@@ -1,0 +1,5791 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Purple API
+  title: Purple API
+  version: "1.0"
+paths:
+  /auth/logout:
+    post:
+      description: ログアウトする
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - login
+  /everyone/auth/login:
+    post:
+      description: ログインする
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.Login"
+        description: Login
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.AuthUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - login
+  /everyone/auth/login/google:
+    post:
+      description: Googleでログインする
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.AuthUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - login
+  /everyone/auth/login/twitter:
+    post:
+      description: Twitterでログインする
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.AuthUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - login
+  /everyone/auth/password/confirm:
+    post:
+      description: パスワードリセット用トークンを検証しパスワードを再設定する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ConfirmPassword"
+        description: Password
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - password
+  /everyone/auth/reset-password:
+    post:
+      description: パスワードリセット用トークンをメールで送信する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ResetPassword"
+        description: Password
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - password
+  /everyone/favorites/stories:
+    get:
+      description: ブックマーク一覧を取得する
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+            default: 100
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - description: all:すべて read:完読のみ unread:未読のみ
+          in: query
+          name: read_type
+          schema:
+            type: string
+            enum:
+              - all
+              - read
+              - unread
+            default: all
+        - description: -id:登録降順 -viewed_at:閲覧日時降順 -updated_at:更新日時降順
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - -id
+              - -viewed_at
+              - -updated_at
+            default: -id
+        - in: query
+          name: story_keys
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 100
+            uniqueItems: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavorite"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - story_favorite
+  "/everyone/favorites/stories/{story_key}":
+    delete:
+      description: ブックマークを削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavorite"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - story_favorite
+    post:
+      description: ブックマークを登録する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavorite"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-story_favorite-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - story_favorite
+  /everyone/likes:
+    get:
+      description: 話のいいねを一覧表示する
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - -id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLikeIncludeStory"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - episode_like
+  /everyone/notifications:
+    get:
+      description: 通知一覧を取得する
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Notification"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - notification
+  /everyone/notifications/read:
+    put:
+      description: 通知を既読にする
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ReadNotification"
+        description: read_notification
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Notification"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - notification
+  /everyone/notifications/state:
+    delete:
+      description: 新着通知ありの状態をクリアする
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - notification
+    get:
+      description: 新着通知の有無を取得する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.NotificationState"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - notification
+  /everyone/sessions:
+    post:
+      description: セッションIDを発行する<br>未登録ユーザー用のCookieを作成する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+      tags:
+        - session
+  "/everyone/stories/{story_key}/episodes/{episode_key}/likes":
+    delete:
+      description: 話のいいねをクリアする
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLike"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - episode_like
+    get:
+      description: 話のいいねを取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLike"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - episode_like
+    post:
+      description: 話のいいねを作成/インクリメントする
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddEpisodeLike"
+        description: episode_like
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLike"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-episode_like-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - episode_like
+  "/everyone/stories/{story_key}/episodes/{episode_key}/view-histories":
+    delete:
+      description: 閲覧履歴を削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - view_history
+    post:
+      description: 閲覧履歴を登録する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.ViewHistory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-view_history-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - view_history
+  /everyone/users:
+    post:
+      description: ユーザー情報を登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddUser"
+        description: User
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.AuthUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-user-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+      tags:
+        - user
+  /everyone/users/status:
+    get:
+      description: ユーザー状態情報を取得する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStatus"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_status
+  /everyone/view-histories:
+    get:
+      description: ログインユーザーに紐づく閲覧履歴一覧を取得する
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.ViewHistoryIncludeStory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - view_history
+  /external/genres:
+    get:
+      description: ジャンル一覧を取得する
+      parameters:
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Genre"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - genre
+  /external/rankings/stories:
+    get:
+      description: 作品ランキングを取得する
+      parameters:
+        - in: query
+          name: genre_key
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 20
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: 集計期間
+          in: query
+          name: period
+          required: true
+          schema:
+            type: string
+            enum:
+              - entire
+              - monthly
+              - weekly
+              - daily
+            default: weekly
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryRank"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - ranking
+  /external/stories:
+    get:
+      description: 作品一覧を取得する
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: "-published_at:新着降順 -last_edited_at: 更新日降順"
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - -published_at
+              - -last_edited_at
+            default: -published_at
+        - description: タグ名
+          in: query
+          name: tag_name
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 30
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Story"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - story
+  "/external/stories/{story_key}":
+    get:
+      description: 作品詳細を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Story"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - story
+  "/external/stories/{story_key}/contents":
+    get:
+      description: 作品に紐づく話一覧を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - episode
+  "/external/stories/{story_key}/episodes/{episode_key}":
+    get:
+      description: 話詳細を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeIncludeContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - episode
+  "/external/stories/{story_key}/episodes/{episode_key}/comments":
+    get:
+      description: コメント一覧を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Comment"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - comment
+  "/external/stories/{story_key}/episodes/{episode_key}/likes/stats":
+    get:
+      description: 話のいいねの統計情報を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLikeStats"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - episode_like
+  "/external/stories/{story_key}/episodes/{episode_key}/likes/users":
+    get:
+      description: 話のいいねをしたユーザー一覧を取得する
+      parameters:
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.EpisodeLikeUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - episode_like
+  "/external/stories/{story_key}/favorites/stats":
+    get:
+      description: ブックマークの統計情報を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavoriteStats"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - story_favorite
+  "/external/stories/{story_key}/favorites/users":
+    get:
+      description: ブックマークをしたユーザー一覧を取得する
+      parameters:
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavoriteUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - story_favorite
+  "/external/users/{user_key}":
+    get:
+      description: ユーザー情報を取得する
+      parameters:
+        - description: user_key
+          in: path
+          name: user_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserDetail"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - user
+  "/external/users/{user_key}/favorites":
+    get:
+      description: 指定したユーザーのブックマーク一覧を取得する
+      parameters:
+        - description: page
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - description: user_key
+          in: path
+          name: user_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryFavorite"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - story_favorite
+  "/external/users/{user_key}/stories":
+    get:
+      description: 指定ユーザーの作品一覧を取得する
+      parameters:
+        - description: user_key
+          in: path
+          name: user_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Story"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      tags:
+        - user_story
+  "/stories/{story_key}/episodes/{episode_key}/comments":
+    post:
+      description: コメントを投稿する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddComment"
+        description: message
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Comment"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-comment-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment
+  "/stories/{story_key}/episodes/{episode_key}/comments/{comment_key}":
+    delete:
+      description: コメントを削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_key
+          in: path
+          name: comment_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment
+    put:
+      description: コメントを編集する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_key
+          in: path
+          name: comment_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        $ref: "#/components/requestBodies/parameter.EditComment"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.Comment"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment
+  "/stories/{story_key}/episodes/{episode_key}/comments/{comment_key}/replies":
+    post:
+      description: 返信コメントを投稿する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_key
+          in: path
+          name: comment_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddCommentReply"
+        description: message
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.CommentReply"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-comment_reply-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment_reply
+  "/stories/{story_key}/episodes/{episode_key}/comments/{comment_key}/replies/{comment_reply_key}":
+    delete:
+      description: 返信コメントを削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_key
+          in: path
+          name: comment_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_reply_key
+          in: path
+          name: comment_reply_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment_reply
+    put:
+      description: 返信コメントを編集する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_key
+          in: path
+          name: comment_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: comment_reply_key
+          in: path
+          name: comment_reply_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        $ref: "#/components/requestBodies/parameter.EditComment"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.CommentReply"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - comment_reply
+  /users/me:
+    get:
+      description: 認証ユーザー情報を取得する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.LoginUser"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user
+    put:
+      description: プロフィール情報を編集する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.EditUser"
+        description: User
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.LoginUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user
+  /users/me/email/confirm:
+    post:
+      description: メール認証コードを検証する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ConfirmEmail"
+        description: Email
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.LoginUser"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - email
+  /users/me/import-story:
+    post:
+      description: zipファイルから作品情報と話情報をインポートする
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: file
+                  type: string
+                  format: binary
+              required:
+                - file
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.StoryImport"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - story_import
+  /users/me/password:
+    put:
+      description: パスワードを変更する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ChangePassword"
+        description: Password
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - password
+  /users/me/reset-email:
+    post:
+      description: |-
+        メール認証コードを送信する。<br>
+        アカウントに紐づくメールアドレス認証のための認証コードを発行する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.ResetEmail"
+        description: emailを指定した場合、メールアドレス変更のための認証コード発行する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - email
+  /users/me/resign:
+    put:
+      description: プロフィール情報を削除する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.DeleteUser"
+        description: User
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user
+  /users/me/stats:
+    get:
+      description: ユーザースタッツを取得する
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserSummary"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user
+  /users/me/stories:
+    get:
+      description: ログインユーザーに紐づく作品一覧を取得する
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_story
+    post:
+      description: 作品を登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddStory"
+        description: Story
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-story-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_story
+  "/users/me/stories/{story_key}":
+    delete:
+      description: 作品を削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_story
+    get:
+      description: 作品を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_story
+    put:
+      description: 作品を編集する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.EditStory"
+        description: Story
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStory"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_story
+  "/users/me/stories/{story_key}/chapters":
+    post:
+      description: 章を登録する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddChapter"
+        description: Chapter
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserChapter"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-chapter-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_chapter
+  "/users/me/stories/{story_key}/chapters/{chapter_key}":
+    delete:
+      description: 章を削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: chapter_key(=episode_key)
+          in: path
+          name: chapter_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_chapter
+    put:
+      description: 章を編集する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: chapter_key(=episode_key)
+          in: path
+          name: chapter_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.EditChapter"
+        description: Chapter
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserChapter"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_chapter
+  "/users/me/stories/{story_key}/contents":
+    get:
+      description: ログインユーザーの作品に紐づく章・話一覧を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100000
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStoryContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_episode
+  "/users/me/stories/{story_key}/contents/sort":
+    put:
+      description: 章・話の並び順を一括更新する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.EditContentsPositions"
+        description: Contents
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserStoryContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - story_contents
+  "/users/me/stories/{story_key}/episodes":
+    post:
+      description: 話を登録する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.AddEpisode"
+        description: Episode
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserEpisodeIncludeContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "500":
+          description: 'code: \"500-episode-900番台\" (一時的なシステムエラー)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_episode
+  "/users/me/stories/{story_key}/episodes/{episode_key}":
+    delete:
+      description: 話を削除する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_episode
+    get:
+      description: 話を取得する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserEpisodeIncludeContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_episode
+    put:
+      description: 話を編集する
+      parameters:
+        - description: story_key
+          in: path
+          name: story_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+        - description: episode_key
+          in: path
+          name: episode_key
+          required: true
+          schema:
+            type: string
+            maxLength: 20
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parameter.EditEpisode"
+        description: Episode
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Success"
+                  - properties:
+                      items:
+                        items:
+                          $ref: "#/components/schemas/output.UserEpisodeIncludeContent"
+                        type: array
+                    type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/response.Error"
+                  - properties:
+                      errors:
+                        items:
+                          $ref: "#/components/schemas/response.ErrorKey"
+                        type: array
+                    type: object
+      security:
+        - X-From: []
+        - ticket: []
+        - access_token: []
+        - account_key: []
+      tags:
+        - user_episode
+servers:
+  - url: https://www.purple-dev.health-meditech.info/api/v1
+  - url: http://localhost:8081/api/v1
+components:
+  requestBodies:
+    parameter.EditComment:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/parameter.EditComment"
+      description: message
+      required: true
+  securitySchemes:
+    X-From:
+      in: header
+      name: X-From
+      type: apiKey
+    access_token:
+      in: cookie
+      name: access_token
+      type: apiKey
+    account_key:
+      in: cookie
+      name: account_key
+      type: apiKey
+    ticket:
+      in: cookie
+      name: ticket
+      type: apiKey
+  schemas:
+    output.AuthUser:
+      properties:
+        access_token:
+          type: string
+        account_key:
+          type: string
+        user:
+          $ref: "#/components/schemas/output.LoginUser"
+      type: object
+    output.Comment:
+      properties:
+        comment_key:
+          type: string
+        creator_key:
+          type: string
+        edited_at:
+          type: string
+        episode_key:
+          type: string
+        message:
+          type: string
+        posted_at:
+          type: string
+        replies:
+          items:
+            $ref: "#/components/schemas/output.CommentReply"
+          type: array
+        story_key:
+          type: string
+        user:
+          $ref: "#/components/schemas/output.User"
+      type: object
+    output.CommentReply:
+      properties:
+        comment_key:
+          type: string
+        comment_reply_key:
+          type: string
+        creator_key:
+          type: string
+        edited_at:
+          type: string
+        episode_key:
+          type: string
+        message:
+          type: string
+        posted_at:
+          type: string
+        story_key:
+          type: string
+        user:
+          $ref: "#/components/schemas/output.User"
+      type: object
+    output.Episode:
+      properties:
+        episode_key:
+          type: string
+        episode_type:
+          type: string
+        picture_image_url1:
+          type: string
+        picture_image_url2:
+          type: string
+        picture_image_url3:
+          type: string
+        published_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.EpisodeStats"
+        story_key:
+          type: string
+        title:
+          type: string
+        updated_at:
+          type: string
+        user_key:
+          type: string
+      type: object
+    output.EpisodeContent:
+      properties:
+        content:
+          type: string
+        episode_content_key:
+          type: string
+        episode_key:
+          type: string
+        story_key:
+          type: string
+      type: object
+    output.EpisodeIncludeContent:
+      properties:
+        episode_content:
+          $ref: "#/components/schemas/output.EpisodeContent"
+        episode_key:
+          type: string
+        episode_type:
+          type: string
+        next_episode_key:
+          type: string
+        picture_image_url1:
+          type: string
+        picture_image_url2:
+          type: string
+        picture_image_url3:
+          type: string
+        pre_episode_key:
+          type: string
+        published_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.EpisodeStats"
+        story_key:
+          type: string
+        title:
+          type: string
+        updated_at:
+          type: string
+        user:
+          $ref: "#/components/schemas/output.User"
+      type: object
+    output.EpisodeLike:
+      properties:
+        count:
+          type: integer
+        episode_key:
+          type: string
+      type: object
+    output.EpisodeLikeIncludeStory:
+      properties:
+        episode:
+          $ref: "#/components/schemas/output.Episode"
+        episode_like:
+          $ref: "#/components/schemas/output.EpisodeLike"
+        story:
+          $ref: "#/components/schemas/output.Story"
+      type: object
+    output.EpisodeLikeStats:
+      properties:
+        episode_title:
+          type: string
+        total_like_count:
+          type: integer
+        user_like_count:
+          type: integer
+      type: object
+    output.EpisodeLikeUser:
+      properties:
+        liked_at:
+          type: string
+        name:
+          type: string
+        profile_image_url:
+          type: string
+          nullable: true
+        user_key:
+          type: string
+      type: object
+    output.EpisodeStats:
+      properties:
+        character_count:
+          type: integer
+        comment_count:
+          type: integer
+        like_count:
+          type: integer
+      type: object
+    output.Genre:
+      properties:
+        genre_key:
+          type: string
+        name:
+          $ref: "#/components/schemas/output.Label"
+      type: object
+    output.Label:
+      properties:
+        en:
+          type: string
+        ja:
+          type: string
+      type: object
+    output.LoginUser:
+      properties:
+        cover_image_url:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        email:
+          type: string
+        email_verified:
+          type: boolean
+        external_link:
+          type: string
+          nullable: true
+        name:
+          type: string
+        profile_image_url:
+          type: string
+          nullable: true
+        registered_at:
+          type: string
+        twitter_screen_name:
+          type: string
+          nullable: true
+        user_key:
+          type: string
+      type: object
+    output.Notification:
+      properties:
+        dest_path:
+          type: string
+        notification_key:
+          type: string
+        notification_type:
+          type: string
+        notified_at:
+          type: string
+        notifier_user_name:
+          type: string
+        read:
+          type: boolean
+        target_title:
+          type: string
+      type: object
+    output.NotificationState:
+      properties:
+        arrived:
+          type: boolean
+      type: object
+    output.Ranking:
+      properties:
+        rank:
+          type: integer
+        rank_before:
+          type: integer
+        rank_status:
+          type: string
+      type: object
+    output.Story:
+      properties:
+        catch_phrase:
+          type: string
+        completed:
+          type: boolean
+        cover_image_url1:
+          type: string
+        cover_image_url2:
+          type: string
+        cover_image_url3:
+          type: string
+        genre:
+          $ref: "#/components/schemas/output.Genre"
+        introduction:
+          type: string
+        published_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.StoryStats"
+        story_key:
+          type: string
+        tags:
+          items:
+            $ref: "#/components/schemas/output.Tag"
+          type: array
+        title:
+          type: string
+        user:
+          $ref: "#/components/schemas/output.User"
+      type: object
+    output.StoryContent:
+      properties:
+        chapter_key:
+          type: string
+        contents_type:
+          type: string
+        episode_key:
+          type: string
+        published_at:
+          type: string
+        story_key:
+          type: string
+        title:
+          type: string
+        user_key:
+          type: string
+      type: object
+    output.StoryFavorite:
+      properties:
+        meta:
+          allOf:
+            - $ref: "#/components/schemas/output.StoryFavoriteMeta"
+          nullable: true
+        story:
+          $ref: "#/components/schemas/output.Story"
+        story_key:
+          type: string
+      type: object
+    output.StoryFavoriteMeta:
+      properties:
+        remaining_episode_count:
+          type: integer
+      type: object
+    output.StoryFavoriteStats:
+      properties:
+        story_title:
+          type: string
+        total_favorite_count:
+          type: integer
+        user_favorite_count:
+          type: integer
+      type: object
+    output.StoryFavoriteUser:
+      properties:
+        favorite_at:
+          type: string
+        name:
+          type: string
+        profile_image_url:
+          type: string
+          nullable: true
+        user_key:
+          type: string
+      type: object
+    output.StoryImport:
+      properties:
+        chapter_count:
+          type: integer
+        episode_count:
+          type: integer
+      type: object
+    output.StoryRank:
+      properties:
+        ranking:
+          $ref: "#/components/schemas/output.Ranking"
+        story:
+          $ref: "#/components/schemas/output.Story"
+      type: object
+    output.StoryStats:
+      properties:
+        character_count:
+          type: integer
+        comment_count:
+          type: integer
+        episode_count:
+          type: integer
+        favorite_count:
+          type: integer
+        first_published_at:
+          type: string
+        last_edited_at:
+          type: string
+        like_count:
+          type: integer
+        view_count:
+          description: "TODO: implement me"
+          type: integer
+      type: object
+    output.Tag:
+      properties:
+        name:
+          type: string
+        tag_key:
+          type: string
+      type: object
+    output.User:
+      properties:
+        description:
+          type: string
+          nullable: true
+        name:
+          type: string
+        profile_image_url:
+          type: string
+          nullable: true
+        user_key:
+          type: string
+      type: object
+    output.UserChapter:
+      properties:
+        chapter_key:
+          type: string
+        episode_type:
+          type: string
+        position:
+          type: integer
+        published:
+          type: boolean
+        published_at:
+          type: string
+        scheduled_at:
+          type: string
+        story_key:
+          type: string
+        title:
+          type: string
+      type: object
+    output.UserDetail:
+      properties:
+        cover_image_url:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        external_link:
+          type: string
+          nullable: true
+        favorite_genre:
+          allOf:
+            - $ref: "#/components/schemas/output.Genre"
+          nullable: true
+        last_story_edited_at:
+          type: string
+          nullable: true
+        name:
+          type: string
+        profile_image_url:
+          type: string
+          nullable: true
+        registered_at:
+          type: string
+        story_count:
+          type: integer
+          nullable: true
+        twitter_screen_name:
+          type: string
+          nullable: true
+        user_key:
+          type: string
+      type: object
+    output.UserEpisodeIncludeContent:
+      properties:
+        episode_content:
+          $ref: "#/components/schemas/output.EpisodeContent"
+        episode_key:
+          type: string
+        episode_type:
+          type: string
+        picture_image_url1:
+          type: string
+        picture_image_url2:
+          type: string
+        picture_image_url3:
+          type: string
+        position:
+          type: integer
+        published:
+          type: boolean
+        published_at:
+          type: string
+        scheduled_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.EpisodeStats"
+        story_key:
+          type: string
+        title:
+          type: string
+        user_key:
+          type: string
+      type: object
+    output.UserStatus:
+      properties:
+        has_access_token:
+          type: boolean
+        has_ticket:
+          type: boolean
+      type: object
+    output.UserStory:
+      properties:
+        catch_phrase:
+          type: string
+        completed:
+          type: boolean
+        cover_image_url1:
+          type: string
+        cover_image_url2:
+          type: string
+        cover_image_url3:
+          type: string
+        genre:
+          $ref: "#/components/schemas/output.Genre"
+        introduction:
+          type: string
+        published:
+          type: boolean
+        published_at:
+          type: string
+        scheduled_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.StoryStats"
+        story_key:
+          type: string
+        tags:
+          items:
+            $ref: "#/components/schemas/output.Tag"
+          type: array
+        title:
+          type: string
+        user_key:
+          type: string
+      type: object
+    output.UserStoryContent:
+      properties:
+        chapter_key:
+          type: string
+        contents_type:
+          type: string
+        episode_key:
+          type: string
+        position:
+          type: integer
+        published:
+          type: boolean
+        published_at:
+          type: string
+        scheduled_at:
+          type: string
+        stats:
+          $ref: "#/components/schemas/output.EpisodeStats"
+        story_key:
+          type: string
+        title:
+          type: string
+        user_key:
+          type: string
+      type: object
+    output.UserSummary:
+      properties:
+        comment_count:
+          type: integer
+        day_view_count:
+          type: integer
+        favorite_count:
+          type: integer
+        last_aggregated_at:
+          type: string
+        like_count:
+          type: integer
+        max_day_view_count:
+          type: integer
+        previous_day_view_count:
+          type: integer
+        user_key:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    output.ViewHistory:
+      properties:
+        episode_key:
+          type: string
+        story_key:
+          type: string
+        viewed_at:
+          type: string
+      type: object
+    output.ViewHistoryIncludeStory:
+      properties:
+        meta:
+          $ref: "#/components/schemas/output.ViewHistoryMeta"
+        story:
+          $ref: "#/components/schemas/output.Story"
+        view_history:
+          $ref: "#/components/schemas/output.ViewHistory"
+      type: object
+    output.ViewHistoryMeta:
+      properties:
+        remaining_episode_count:
+          type: integer
+      type: object
+    parameter.AddChapter:
+      properties:
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - title
+      type: object
+    parameter.AddComment:
+      properties:
+        message:
+          maxLength: 140
+          type: string
+      required:
+        - message
+      type: object
+    parameter.AddCommentReply:
+      properties:
+        message:
+          maxLength: 140
+          type: string
+      required:
+        - message
+      type: object
+    parameter.AddEpisode:
+      properties:
+        content:
+          maxLength: 100000
+          type: string
+        picture_image1:
+          type: string
+        picture_image2:
+          type: string
+        picture_image3:
+          type: string
+        published:
+          type: boolean
+        scheduled_at:
+          type: string
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - content
+        - title
+      type: object
+    parameter.AddEpisodeLike:
+      properties:
+        count:
+          maximum: 1
+          minimum: 1
+          type: integer
+      required:
+        - count
+      type: object
+    parameter.AddStory:
+      properties:
+        catch_phrase:
+          maxLength: 35
+          minLength: 1
+          type: string
+        completed:
+          type: boolean
+        cover_image1:
+          type: string
+        cover_image2:
+          type: string
+        cover_image3:
+          type: string
+        genre_key:
+          maxLength: 20
+          type: string
+        introduction:
+          maxLength: 10000
+          minLength: 1
+          type: string
+        published:
+          type: boolean
+        scheduled_at:
+          type: string
+        tags:
+          items:
+            $ref: "#/components/schemas/parameter.Tag"
+          maxItems: 10
+          type: array
+          uniqueItems: true
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - genre_key
+        - title
+      type: object
+    parameter.AddUser:
+      properties:
+        email:
+          maxLength: 191
+          type: string
+        name:
+          maxLength: 20
+          type: string
+        password:
+          type: string
+        recaptcha_token:
+          description: |-
+            TODO reCAPTCHA導入完了までは任意
+            RecaptchaToken string `json:"recaptcha_token" validate:"required"`
+          type: string
+        user_key:
+          description: 半角英数字、ハイフン、アンダースコア、最大30文字
+          maxLength: 30
+          type: string
+      required:
+        - email
+        - name
+        - password
+        - user_key
+      type: object
+    parameter.ChangePassword:
+      properties:
+        new_password:
+          type: string
+        password:
+          type: string
+      type: object
+    parameter.ConfirmEmail:
+      properties:
+        code:
+          maxLength: 6
+          minLength: 6
+          type: string
+      required:
+        - code
+      type: object
+    parameter.ConfirmPassword:
+      properties:
+        password:
+          type: string
+        token:
+          maxLength: 191
+          type: string
+      required:
+        - token
+      type: object
+    parameter.ContentsPosition:
+      properties:
+        chapter_key:
+          maxLength: 20
+          minLength: 1
+          type: string
+        episode_key:
+          maxLength: 20
+          minLength: 1
+          type: string
+      type: object
+    parameter.DeleteUser:
+      properties:
+        password:
+          type: string
+      required:
+        - password
+      type: object
+    parameter.EditChapter:
+      properties:
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - title
+      type: object
+    parameter.EditComment:
+      properties:
+        message:
+          maxLength: 140
+          type: string
+      required:
+        - message
+      type: object
+    parameter.EditContentsPositions:
+      properties:
+        contents:
+          description: TODO 配列の長さは仮
+          items:
+            $ref: "#/components/schemas/parameter.ContentsPosition"
+          maxItems: 300
+          minItems: 1
+          type: array
+      required:
+        - contents
+      type: object
+    parameter.EditEpisode:
+      properties:
+        content:
+          maxLength: 100000
+          type: string
+        picture_image1:
+          type: string
+        picture_image2:
+          type: string
+        picture_image3:
+          type: string
+        published:
+          type: boolean
+        scheduled_at:
+          type: string
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - content
+        - title
+      type: object
+    parameter.EditStory:
+      properties:
+        catch_phrase:
+          maxLength: 35
+          minLength: 1
+          type: string
+        completed:
+          type: boolean
+        cover_image1:
+          type: string
+        cover_image2:
+          type: string
+        cover_image3:
+          type: string
+        genre_key:
+          maxLength: 20
+          type: string
+        introduction:
+          maxLength: 10000
+          minLength: 1
+          type: string
+        published:
+          type: boolean
+        scheduled_at:
+          type: string
+        tags:
+          items:
+            $ref: "#/components/schemas/parameter.Tag"
+          maxItems: 10
+          type: array
+          uniqueItems: true
+        title:
+          maxLength: 100
+          type: string
+      required:
+        - genre_key
+        - title
+      type: object
+    parameter.EditUser:
+      properties:
+        description:
+          maxLength: 100
+          minLength: 1
+          type: string
+        external_link:
+          maxLength: 150
+          type: string
+        name:
+          maxLength: 20
+          type: string
+        twitter_screen_name:
+          maxLength: 15
+          minLength: 1
+          type: string
+      required:
+        - name
+      type: object
+    parameter.Login:
+      properties:
+        email:
+          maxLength: 191
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      type: object
+    parameter.ReadNotification:
+      properties:
+        notification_key:
+          maxLength: 20
+          type: string
+        notification_type:
+          enum:
+            - get_like
+            - get_favorite
+            - get_comment
+            - get_reply
+            - new_episode
+          type: string
+      required:
+        - notification_key
+        - notification_type
+      type: object
+    parameter.ResetEmail:
+      properties:
+        email:
+          maxLength: 191
+          type: string
+      type: object
+    parameter.ResetPassword:
+      properties:
+        email:
+          maxLength: 191
+          type: string
+      required:
+        - email
+      type: object
+    parameter.Tag:
+      properties:
+        name:
+          maxLength: 30
+          minLength: 1
+          type: string
+        tag_key:
+          description: TODO タグ名で登録・編集しているため不要。現時点ではTagKeyのパラメーターを受け付けるが値は無視している
+          maxLength: 20
+          minLength: 0
+          type: string
+      required:
+        - name
+      type: object
+    response.Error:
+      properties:
+        code:
+          description: エラーコード
+          type: string
+        errors:
+          items:
+            $ref: "#/components/schemas/response.ErrorKey"
+          type: array
+        message:
+          description: エラーメッセージ
+          type: string
+        status:
+          description: HTTPステータスコード
+          type: integer
+      type: object
+    response.ErrorKey:
+      properties:
+        key:
+          description: エラー箇所
+          type: string
+        message:
+          description: エラー箇所メッセージ
+          type: string
+      type: object
+    response.Success:
+      properties:
+        items:
+          description: データ配列
+        type:
+          description: データ種別
+          type: string
+      type: object
